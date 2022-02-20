@@ -13,6 +13,9 @@ export const initAnimationOnScroll = () => {
       console.log('It is callback function');
     }
   })
+
+  // Add class for start animation if block was scrolled
+  addScrolledElemAnimationClass();
 }
 
 
@@ -45,4 +48,21 @@ function addObserver(el, options, activeClass) {
     })
   }, options)
   observer.observe(el)
+}
+
+function addScrolledElemAnimationClass(
+  selectorElem = '[data-animation-on-scroll]',
+  animationSelector = 'start-animation-on-scroll'
+) {
+  const elements = document.querySelectorAll(selectorElem);
+  const scroll = window.pageYOffset - (window.innerHeight / 2);
+
+  if (!elements.length) return;
+
+  [...elements].forEach(element => {
+    const rect = element.getBoundingClientRect();
+    if ( rect.top < scroll ) {
+      element.classList.add(animationSelector);
+    }
+  })
 }
